@@ -14,8 +14,7 @@ class Page extends Model
     protected $sluggable = [
 
         'build_from' => 'title',
-
-        'save_to'    => 'slug',
+        'save_to'    => 'slug'
 
     ];
 

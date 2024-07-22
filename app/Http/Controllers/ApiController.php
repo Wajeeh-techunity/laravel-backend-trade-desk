@@ -10,11 +10,12 @@ use JWTAuth;
 
 class ApiController extends Controller
 {
-    public function api_data(){
+    public function api_data(Request $request){
 
+        $user_id = $request->input('user_id');
+        // $user_id = 6;
 
-        $users = User::all();
-        var_dump($users);
+        $users = User::where('id', $user_id)->first();
         $origin = config('cors.allowed_origins')[0];
         return response()->json($users, 200, [
             'Content-Type' => 'application/json',
@@ -68,6 +69,24 @@ class ApiController extends Controller
         $users = User::all();
         return response()->json(['Users' => $users], 201);
 
+    }
+    
+    public function updateUser(Request $request)
+    {
+        $user = User::find($request->user_id);
+      
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        $user->update([
+            'address' => $request->address,
+            'phone_no' => $request->phone_no,
+            'subject' => $request->subject,
+            'message' => $request->description,
+        ]);
+
+        return response()->json(['data' => $user], 200);
     }
 
 
